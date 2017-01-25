@@ -1,0 +1,11 @@
+---
+local_network:
+  address: '192.168.142.1'
+  broadcast: '192.168.142.255'
+  netmask: '255.255.255.0'
+
+wpa_supplicant:
+  network1: 'Teknoo'
+  psk1: 'Mdpwifi2richarddelogefc'
+  network2: 'TeknooMobile'
+  psk2: 'Mdpwifi2richarddelogefc'

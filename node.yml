@@ -1,0 +1,10 @@
+---
+- sudo: true
+  vars_files:
+    - vars/all.yml
+    - vars/node.yml
+  roles:
+    - base
+    - docker
+    - network-client
+    - nfs-client

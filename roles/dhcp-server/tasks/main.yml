@@ -1,0 +1,6 @@
+---
+- name: Install DHCP Server
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - isc-dhcp-server

@@ -1,0 +1,14 @@
+---
+- sudo: true
+  vars_files:
+    - vars/all.yml
+    - vars/host.yml
+  roles:
+    - base
+    - shorewall
+    - clusterhat
+    - docker
+    - php-arm-docker
+    - ntp-server
+    - nfs-server
+    - dhcp-server
