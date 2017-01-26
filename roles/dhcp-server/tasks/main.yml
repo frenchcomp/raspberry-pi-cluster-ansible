@@ -4,3 +4,8 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - isc-dhcp-server
+
+- name: Configure DHCP Server
+  sudo: yes
+  template: src=dhcpd.tpl dest=/etc/dhcp/dhcpd.conf
+

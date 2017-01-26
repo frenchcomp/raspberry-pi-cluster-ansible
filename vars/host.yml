@@ -2,7 +2,13 @@
 local_network:
   address: '192.168.142.1'
   broadcast: '192.168.142.255'
+  base_address: '192.168.142'
   netmask: '255.255.255.0'
+  local_networ.hardware.mac: '00:22:82:ff:ff'
+  domain: "labs.teknoo.software"
+  dns: '8.8.8.8'
+  time-lease: 600
+  max-lease-time: 7200
 
 wpa_supplicant:
   network1: 'Teknoo'

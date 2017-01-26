@@ -13,8 +13,8 @@ ddns-update-style none;
 option domain-name "example.org";
 option domain-name-servers ns1.example.org, ns2.example.org;
 
-default-lease-time 600;
-max-lease-time 7200;
+default-lease-time {{local_network.time-lease}};
+max-lease-time {{local_network.max-lease-time}};
 
 # If this DHCP server is the official DHCP server for the local
 # network, the authoritative directive should be uncommented.
@@ -27,32 +27,57 @@ log-facility local7;
 # No service will be given on this subnet, but declaring it helps the
 # DHCP server to understand the network topology.
 
-subnet 192.168.142.0 netmask 255.255.255.0 {
-  range 192.168.142.10 192.168.142.20;
-  option broadcast-address 192.168.142.255;
-  option routers 192.168.142.1;
-  default-lease-time 600;
-  max-lease-time 7200;
-  option domain-name "labs.teknoo.software";
-  option domain-name-servers 8.8.8.8;
+subnet {{local_network.base_address}}.0 netmask {{local_network.netmask}} {
+  range {{local_network.base_address}}.10 {{local_network.base_address}}.30;
+  option broadcast-address  {{local_network.brodcast}};
+  option routers {{local_network.base_address}}
+  default-lease-time {{local_network.time-lease}};
+  max-lease-time {{local_network.max-lease-time}}
+  option domain-name {{local_network.domain}};
+  option domain-name-servers {{local_network.dns}};
 }
 
 host pi1 {
-  hardware ethernet 00:22:82:ff:ff:01;
-  fixed-address 192.168.142.11;
+  hardware ethernet {{local_networ.hardware.mac}}:01;
+  fixed-address {{local_network.base_address}}.11;
 }
 
 host pi2 {
-  hardware ethernet 00:22:82:ff:ff:02;
-  fixed-address 192.168.142.12;
+  hardware ethernet {{local_networ.hardware.mac}}:02;
+  fixed-address {{local_network.base_address}}.12;
 }
 
 host pi3 {
-  hardware ethernet 00:22:82:ff:ff:03;
-  fixed-address 192.168.142.13;
+  hardware ethernet {{local_networ.hardware.mac}}:03;
+  fixed-address {{local_network.base_address}}.13;
 }
 
 host pi4 {
-  hardware ethernet 00:22:82:ff:ff:04;
-  fixed-address 192.168.142.14;
+  hardware ethernet {{local_networ.hardware.mac}}:04;
+  fixed-address {{local_network.base_address}}.14;
+}
+
+host pi5 {
+  hardware ethernet {{local_networ.hardware.mac}}:05;
+  fixed-address {{local_network.base_address}}.15;
+}
+
+host pi6 {
+  hardware ethernet {{local_networ.hardware.mac}}:06;
+  fixed-address {{local_network.base_address}}.16;
+}
+
+host pi7 {
+  hardware ethernet {{local_networ.hardware.mac}}:07;
+  fixed-address {{local_network.base_address}}.17;
+}
+
+host pi8 {
+  hardware ethernet {{local_networ.hardware.mac}}:08;
+  fixed-address {{local_network.base_address}}.18;
+}
+
+host pi9 {
+  hardware ethernet {{local_networ.hardware.mac}}:09;
+  fixed-address {{local_network.base_address}}.19;
 }
