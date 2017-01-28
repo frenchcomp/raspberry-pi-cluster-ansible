@@ -1,0 +1,35 @@
+---
+- name: Creates mnt data directory
+  sudo: yes
+  file: path=/mnt/data state=directory
+
+- name: Update FSTAB
+  sudo: yes
+  mount:
+    path: {{nfs.dev_disk_data_uuid}}
+    src: {{local_network.address}}:/mnt/data
+    fstype: nfs
+    opts: rw
+    state: mounted
+
+- name: Install NFS Server
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - nfs-common
+    - nfs-server
+    - rpcbind
+
+- name: Update Export file
+  sudo: yes
+  template: src=exports.conf.tpl dest=/etc/exports.conf
+
+- name: run Exportfs
+  sudo: yes
+  command: exportfs
+
+- name: Enable RPCBind
+  service: name="rpcbind" state=started enabled=yes
+
+- name: Enable NFS
+  service: name="nfs-kernel-server" state=started enabled=yes

@@ -39,4 +39,4 @@
 
 - name: Configure wpa supplicant
   sudo: yes
-  template: src=wpa_supplicant.tpl dest=/etc/wpa_supplicant/wpa_supplicant.conf
+  template: src=wpa_supplicant.conf.tpl dest=/etc/wpa_supplicant/wpa_supplicant.conf

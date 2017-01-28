@@ -1,0 +1,47 @@
+---
+- name: Install Shorewall
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - shorewall
+
+- name: Update Default
+  sudo: yes
+  template: src=default.tpl dest=/etc/default/shorewall
+
+- name: Update config file : conntrack
+  sudo: yes
+  template: src=conntrack.tpl dest=/etc/shorewall/conntrack
+
+- name: Update config file : interface
+  sudo: yes
+  template: src=interface.tpl dest=/etc/shorewall/interface
+
+- name: Update config file : masq
+  sudo: yes
+  template: src=masq.tpl dest=/etc/shorewall/masq
+
+- name: Update config file : params
+  sudo: yes
+  template: src=params.tpl dest=/etc/shorewall/params
+
+- name: Update config file : policy
+  sudo: yes
+  template: src=policy.tpl dest=/etc/shorewall/policy
+
+- name: Update config file : rules
+  sudo: yes
+  template: src=rules.tpl dest=/etc/shorewall/rules
+
+- name: Update config file : shorewall.conf
+  sudo: yes
+  template: src=shorewall.conf.tpl dest=/etc/shorewall/shorewall.conf
+
+- name: Update config file : stoppedrules
+  sudo: yes
+  template: src=stoppedrules.tpl dest=/etc/shorewall/stoppedrules
+
+- name: Update config file : zones
+  sudo: yes
+  template: src=zones.tpl dest=/etc/shorewall/zones
+

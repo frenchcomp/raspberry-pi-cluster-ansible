@@ -1,0 +1,4 @@
+---
+- name: Configure ntp
+  sudo: yes
+  template: src=ntp.conf.tpl dest=/etc/ntp.conf

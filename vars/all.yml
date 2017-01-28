@@ -2,3 +2,11 @@
 server:
     timezone: 'Europe/Paris'
     locale: fr_FR.UTF-8
+
+local_network:
+  broadcast: '192.168.142.255'
+  base_address: '192.168.142'
+  netmask: '255.255.255.0'
+  local_networ.hardware.mac: '00:22:82:ff:ff'
+  domain: "labs.teknoo.software"
+  nfs_mount_point: "/mnt/data"

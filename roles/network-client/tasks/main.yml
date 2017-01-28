@@ -1,0 +1,8 @@
+---
+- name: Configure network
+  sudo: yes
+  template: src=interfaces.tpl dest=/etc/network/interfaces
+
+- name: Configure ntp
+  sudo: yes
+  template: src=ntp.conf.tpl dest=/etc/ntp.conf

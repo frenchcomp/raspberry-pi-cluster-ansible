@@ -1,0 +1,19 @@
+---
+- name: Install NFS Client
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - nfs-common
+
+- name: Creates mnt data directory
+  sudo: yes
+  file: path={{local_network.nfs_mount_point}} state=directory
+
+- name: Update FSTAB
+  sudo: yes
+  mount:
+    path: /mnt/data
+    src: {{local_network.address}}:{{local_network.nfs_mount_point}}
+    fstype: nfs
+    opts: rw
+    state: mounted

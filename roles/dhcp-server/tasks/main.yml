@@ -7,5 +7,5 @@
 
 - name: Configure DHCP Server
   sudo: yes
-  template: src=dhcpd.tpl dest=/etc/dhcp/dhcpd.conf
+  template: src=dhcpd.conf.tpl dest=/etc/dhcp/dhcpd.conf
 
