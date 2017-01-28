@@ -4,44 +4,70 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - shorewall
+  register: shorewall_installed
 
 - name: Update Default
   sudo: yes
   template: src=default.tpl dest=/etc/default/shorewall
+  register: shorewall_enabked
+  when: shorewall_installed|success
 
 - name: Update config file : conntrack
   sudo: yes
   template: src=conntrack.tpl dest=/etc/shorewall/conntrack
+  register: shorewall_configure_conntrack
+  when: shorewall_installed|success
 
 - name: Update config file : interface
   sudo: yes
   template: src=interface.tpl dest=/etc/shorewall/interface
+  register: shorewall_configure_interface
+  when: shorewall_installed|success
 
 - name: Update config file : masq
   sudo: yes
   template: src=masq.tpl dest=/etc/shorewall/masq
+  register: shorewall_configure_masq
+  when: shorewall_installed|success
 
 - name: Update config file : params
   sudo: yes
   template: src=params.tpl dest=/etc/shorewall/params
+  register: shorewall_configure_params
+  when: shorewall_installed|success
 
 - name: Update config file : policy
   sudo: yes
   template: src=policy.tpl dest=/etc/shorewall/policy
+  register: shorewall_configure_policy
+  when: shorewall_installed|success
 
 - name: Update config file : rules
   sudo: yes
   template: src=rules.tpl dest=/etc/shorewall/rules
+  register: shorewall_configure_rules
+  when: shorewall_installed|success
 
 - name: Update config file : shorewall.conf
   sudo: yes
   template: src=shorewall.conf.tpl dest=/etc/shorewall/shorewall.conf
+  register: shorewall_configure
+  when: shorewall_installed|success
 
 - name: Update config file : stoppedrules
   sudo: yes
   template: src=stoppedrules.tpl dest=/etc/shorewall/stoppedrules
+  register: shorewall_configure_stoppedrules
+  when: shorewall_installed|success
 
 - name: Update config file : zones
   sudo: yes
   template: src=zones.tpl dest=/etc/shorewall/zones
+  register: shorewall_configure_zones
+  when: shorewall_installed|success
+
+- name: Enable Shorewall
+  service: name="shorewall" state=started enabled=yes
+  register: shorewall_installed
+  when: shorewall_installed|success
 

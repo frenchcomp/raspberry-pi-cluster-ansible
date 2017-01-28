@@ -2,7 +2,9 @@
 - name: Configure network
   sudo: yes
   template: src=interfaces.tpl dest=/etc/network/interfaces
+  register: network_client_configured
 
 - name: Configure ntp
   sudo: yes
   template: src=ntp.conf.tpl dest=/etc/ntp.conf
+  register: network_client_ntp

@@ -1,5 +1,5 @@
 ---
-- name: Install ClusterHar Base Packages
+- name: Install ClusterHat Base Packages
   sudo: yes
   apt: pkg={{ item }} state=latest
   with_items:
@@ -7,20 +7,30 @@
     - wiringpi
     - screen
     - minicom
+  register: clusterhat_package_installed
 
 - name: Ensure we're going to do a text boot
   sudo: yes
   command: systemctl set-default multi-user.target
+  register: clusterhat_text_boot_enabled
 
-- name: More Configure the timezone
+- name: Enable gadget mode
   sudo: yes
-  file: src=/lib/systemd/system/getty@.service dest=/etc/systemd/system/getty.target.wants/getty@ttyGS0.service state=link force=yes backup=yes
+  file:
+    src=/lib/systemd/system/getty@.service
+    dest=/etc/systemd/system/getty.target.wants/getty@ttyGS0.service
+    state=link
+    force=yes
+    backup=yes
+  register: clusterhat_gadget_enable
 
 - name: Get the cluster HAT software/config files
   sudo: yes
   get_url:
-      url: http://dist.8086.net/clusterhat/clusterhat-files-latest.tgz
-      dest: /root/clusterhat-files-latest.tgz
+    url: http://dist.8086.net/clusterhat/clusterhat-files-latest.tgz
+    dest: /root/clusterhat-files-latest.tgz
+  register: clusterhat_software_downloaded
+  when: clusterhat_package_installed|success and clusterhat_text_boot_enabled|success and clusterhat_gadget_enable|success
 
 - name: Install cluster HAT software/config files
   sudo: yes
@@ -28,15 +38,18 @@
       src: /root/clusterhat-files-latest.tgz
       dest: /
       extra_opts: ['C']
+  register: clusterhat_software_installed
+  when: clusterhat_software_downloaded|success
 
 - name: Patch cluster Hat
   sudo: yes
   template: src=clusterhat.tpl dest=/sbin/clusterhat
+  register: clusterhat_patched
+  when: clusterhat_software_installed|success
 
 - name: Configure network
   sudo: yes
   template: src=interfaces.tpl dest=/etc/network/interfaces
+  register: clusterhat_network_bridge_installed
+  when: clusterhat_patched|success
 
-- name: Configure wpa supplicant
-  sudo: yes
-  template: src=wpa_supplicant.conf.tpl dest=/etc/wpa_supplicant/wpa_supplicant.conf

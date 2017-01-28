@@ -2,10 +2,13 @@
 - name: Update apt
   sudo: yes
   apt: update_cache=yes
+  register: base_apt_updated
 
 - name: Upgrade apt
   sudo: yes
   apt: upgrade=dist
+  register: base_apt_upgrated
+  when: base_apt_updated|success
 
 - name: Install System Packages
   sudo: yes
@@ -18,23 +21,32 @@
     - python-software-properties
     - python-pip
     - htop
+  register: base_system_installed
+  when: base_apt_updated|success
 
 - name: Install Extra Packages
   sudo: yes
   apt: pkg={{ item }} state=latest
   with_items: server.packages
+  register: base_system_extra_installed
   when: server.packages is defined
+  when: base_apt_updated|success
 
 - name: Configure the timezone
   sudo: yes
   template: src=timezone.tpl dest=/etc/timezone
+  register: base_timezone_defined
 
 - name: More Configure the timezone
   sudo: yes
   file: src=/usr/share/zoneinfo/{{server.timezone}} dest=/etc/localtime state=link force=yes backup=yes
+  register: base_locale_linked
+  when: base_timezone_defined|success
 
 - name: Set default system language pack
   shell: locale-gen {{server.locale}}
   sudo: yes
+  register: base_locale_generated
+  when: base_timezone_defined|success
 
 

@@ -4,10 +4,13 @@
   apt: pkg={{ item }} state=latest
   with_items:
     - nfs-common
+  register: nfs_client_installed
 
 - name: Creates mnt data directory
   sudo: yes
   file: path={{local_network.nfs_mount_point}} state=directory
+  register: nfs_client_mount_point
+  when: nfs_client_installed|success
 
 - name: Update FSTAB
   sudo: yes
@@ -17,3 +20,5 @@
     fstype: nfs
     opts: rw
     state: mounted
+  register: nfs_client_configured
+  when: nfs_client_mount_point|success

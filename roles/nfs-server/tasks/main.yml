@@ -2,6 +2,7 @@
 - name: Creates mnt data directory
   sudo: yes
   file: path=/mnt/data state=directory
+  register: nfs_server_mount_point
 
 - name: Update FSTAB
   sudo: yes
@@ -11,6 +12,8 @@
     fstype: nfs
     opts: rw
     state: mounted
+  register: nfs_server_device_mounted
+  when: nfs_server_mount_point|success
 
 - name: Install NFS Server
   sudo: yes
@@ -19,17 +22,27 @@
     - nfs-common
     - nfs-server
     - rpcbind
+  register: nfs_server_installed
+  when: nfs_server_device_mounted|success
 
 - name: Update Export file
   sudo: yes
   template: src=exports.conf.tpl dest=/etc/exports.conf
+  register: nfs_server_export_configured
+  when: nfs_server_installed|success
 
 - name: run Exportfs
   sudo: yes
   command: exportfs
+  register: nfs_server_exportfs
+  when: nfs_server_exportfs|success
 
 - name: Enable RPCBind
   service: name="rpcbind" state=started enabled=yes
+  register: nfs_server_rpcbind_enabled
+  when: nfs_server_exportfs|success
 
 - name: Enable NFS
   service: name="nfs-kernel-server" state=started enabled=yes
+  register: nfs_server_enabled
+  when: nfs_server_exportfs|success

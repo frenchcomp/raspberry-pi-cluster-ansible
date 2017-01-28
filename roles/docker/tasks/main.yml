@@ -7,6 +7,7 @@
     - curl
     - ca-certificates
     - gnupg2
+  register: docker_base_package_installed
 
 - name: Add Key Server ha.pool.sks-keyservers.net
   sudo: yes
@@ -14,6 +15,8 @@
     keyserver: hkp://ha.pool.sks-keyservers.net:80
     id: 58118E89F3A912897C070ADBF76221572C52609D
     state: present
+  register: docker_keyserver_sks
+  when: docker_base_package_installed|success
 
 - name: Add Key Server pgp.mit.edu
   sudo: yes
@@ -21,6 +24,8 @@
     keyserver: hkp://pgp.mit.edu:80
     id: 58118E89F3A912897C070ADBF76221572C52609D
     state: present
+  register: docker_keyserver_mit
+  when: docker_base_package_installed|success
 
 - name: Add Key Server keyserver.ubuntu.com
   sudo: yes
@@ -28,12 +33,16 @@
     keyserver: hkp://keyserver.ubuntu.com:80
     id: 58118E89F3A912897C070ADBF76221572C52609D
     state: present
+  register: docker_keyserver_ubuntu
+  when: docker_base_package_installed|success
 
 - name: Register key
   sudo: yes
   apt_key:
     data: 58118E89F3A912897C070ADBF76221572C52609D
     state: present
+  register: docker_keyserver
+  when: docker_base_package_installed|success
 
 - name: Register Docker repository
   sudo: yes
@@ -41,21 +50,31 @@
     repo: "deb [arch=armhf] https://apt.dockerproject.org/repo debian-jessie main"
     state: present
     filename: 'docker'
+  register: docker_registry_added
+  when: docker_keyserver_sks|success and docker_keyserver_mit|success and docker_keyserver_ubuntu|success and docker_keyserver|success
 
 - name: Update apt
   sudo: yes
   apt: update_cache=yes
+  register: docker_apt_updated
+  when: docker_registry_added|success
 
 - name: Install Docker Packages
   sudo: yes
   apt: pkg={{ item }} state=latest
   with_items:
     - docker-engine
+  register: docker_installed
+  when: docker_apt_updated|success
 
 - name: Enable Docker
   service: name="docker" state=started enabled=yes
+  register: docker_enabled
+  when: docker_installed|success
 
 - name: Ad Pi user to docker group
   user:
     name: pi
     groups: docker
+  register: docker_user_pi_enable
+  when: docker_installed|success
