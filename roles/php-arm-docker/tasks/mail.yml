@@ -1,0 +1,18 @@
+---
+- name: Prepare tmp directory
+  sudo: yes
+  file: path=/tmp/php-docker state=directory
+
+- name: Transfert Dockerfile
+  sudo: yes
+  template: src=Dockerfile.tpl dest=/tmp/php-docker/Dockerfile
+
+- name: Update Export file
+  sudo: yes
+  template: src=docker.ini.tpl dest=/tmp/php-docker/docker.ini
+
+- name: Build PHP Container
+  sudo: yes
+  docker_image:
+    path: /tmp/php-docker
+    name: php7-rpi
