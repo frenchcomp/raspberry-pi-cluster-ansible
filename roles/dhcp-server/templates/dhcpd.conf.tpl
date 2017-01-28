@@ -10,8 +10,8 @@
 ddns-update-style none;
 
 # option definitions common to all supported networks...
-option domain-name "example.org";
-option domain-name-servers ns1.example.org, ns2.example.org;
+option domain-name {{local_network.domain}};
+option domain-name-servers {{local_network.dns}};
 
 default-lease-time {{local_network.time-lease}};
 max-lease-time {{local_network.max-lease-time}};

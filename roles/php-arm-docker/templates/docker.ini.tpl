@@ -1,2 +1,2 @@
-date.timezone = UTC
+date.timezone = {{server.timezone}}
 
