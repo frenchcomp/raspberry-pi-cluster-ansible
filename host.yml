@@ -7,8 +7,8 @@
     - base
     - shorewall
     - clusterhat
-    - docker
-    - php-arm-docker
     - ntp-server
     - nfs-server
     - dhcp-server
+    - docker
+    - php-arm-docker

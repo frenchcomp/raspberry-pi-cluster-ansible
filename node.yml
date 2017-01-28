@@ -5,6 +5,6 @@
     - vars/node.yml
   roles:
     - base
-    - docker
     - network-client
     - nfs-client
+    - docker
