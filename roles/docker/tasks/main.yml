@@ -1,0 +1,53 @@
+---
+- name: Install Base Docker packages
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - apt-transport-https ca-certificates
+    - curl
+    - ca-certificates
+    - gnupg2
+
+- name: Add Key Server ha.pool.sks-keyservers.net
+  sudo: yes
+  apt_key:
+    keyserver: hkp://ha.pool.sks-keyservers.net:80
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+    state: present
+
+- name: Add Key Server pgp.mit.edu
+  sudo: yes
+  apt_key:
+    keyserver: hkp://pgp.mit.edu:80
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+    state: present
+
+- name: Add Key Server keyserver.ubuntu.com
+  sudo: yes
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+    state: present
+
+- name: Register key
+  sudo: yes
+  apt_key:
+    data: 58118E89F3A912897C070ADBF76221572C52609D
+    state: present
+
+- name: Register Docker repository
+  sudo: yes
+  apt_repository:
+    repo: "deb [arch=armhf] https://apt.dockerproject.org/repo debian-jessie main"
+    state: present
+    filename: 'docker'
+
+- name: Update apt
+  sudo: yes
+  apt: update_cache=yes
+
+- name: Install Docker Packages
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - docker-engine
