@@ -40,7 +40,7 @@
 - name: Register key
   sudo: yes
   apt_key:
-    data: 58118E89F3A912897C070ADBF76221572C52609D
+    id: 58118E89F3A912897C070ADBF76221572C52609D
     state: present
   register: docker_keyserver
   when: docker_base_package_installed|success

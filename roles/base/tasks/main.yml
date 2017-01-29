@@ -18,11 +18,19 @@
     - screen
     - vim
     - wget
+    - python
     - python-software-properties
-    - python-pip
     - htop
   register: base_system_installed
   when: base_apt_updated|success
+
+- name: Install pip
+  sudo: yes
+  easy_install:
+    name: pip
+    state: latest
+  register: pip_installed
+  when: base_system_installed|success
 
 - name: Install Extra Packages
   sudo: yes
