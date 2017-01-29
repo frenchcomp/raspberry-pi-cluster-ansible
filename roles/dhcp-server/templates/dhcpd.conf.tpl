@@ -10,8 +10,8 @@
 ddns-update-style none;
 
 # option definitions common to all supported networks...
-option domain-name {{local_network.domain}};
-option domain-name-servers {{local_network.domain}};
+option domain-name "{{local_network.domain}}";
+option domain-name-servers {{local_network.dns}};
 
 default-lease-time {{local_network.time_lease}};
 max-lease-time {{local_network.max_lease_time}};
@@ -30,10 +30,10 @@ log-facility local7;
 subnet {{local_network.base_address}}.0 netmask {{local_network.netmask}} {
   range {{local_network.base_address}}.10 {{local_network.base_address}}.30;
   option broadcast-address  {{local_network.broadcast}};
-  option routers {{local_network.base_address}}
+  option routers {{local_network.address}};
   default-lease-time {{local_network.time_lease}};
-  max-lease-time {{local_network.max_lease_time}}
-  option domain-name {{local_network.domain}};
+  max-lease-time {{local_network.max_lease_time}};
+  option domain-name "{{local_network.domain}}";
   option domain-name-servers {{local_network.dns}};
 }
 

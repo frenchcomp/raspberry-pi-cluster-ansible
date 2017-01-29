@@ -15,8 +15,8 @@
 - name: Update FSTAB
   sudo: yes
   mount:
-    path: /mnt/data
-    src: {{local_network.address}}:{{local_network.nfs_mount_point}}
+    name: "{{local_network.nfs_mount_point}}"
+    src: "{{local_network.address}}:{{local_network.nfs_mount_point}}"
     fstype: nfs
     opts: rw
     state: mounted

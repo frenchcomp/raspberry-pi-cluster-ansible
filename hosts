@@ -1,7 +1,7 @@
 [host.ssh]
 ctkw.ssh
 [node.ssh]
-pi1.ssh
-pi2.ssh
-pi2.ssh
-pi4.ssh
+ctkwp1.ssh
+ctkwp2.ssh
+ctkwp3.ssh
+ctkwp4.ssh
