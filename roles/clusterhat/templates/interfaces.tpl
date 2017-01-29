@@ -19,6 +19,6 @@ iface br0 inet static
         bridge_waitport 0
         bridge_fd 0
 	    address {{local_network.address}}
-	    broadcast {{local_network.brodcast}}
+	    broadcast {{local_network.broadcast}}
 	    netmask {{local_network.netmask}}
 

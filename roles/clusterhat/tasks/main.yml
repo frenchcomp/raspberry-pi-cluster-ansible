@@ -7,6 +7,8 @@
     - wiringpi
     - screen
     - minicom
+    - wget
+    - tar
   register: clusterhat_package_installed
 
 - name: Ensure we're going to do a text boot
@@ -24,22 +26,11 @@
     backup=yes
   register: clusterhat_gadget_enable
 
-- name: Get the cluster HAT software/config files
-  sudo: yes
-  get_url:
-    url: http://dist.8086.net/clusterhat/clusterhat-files-latest.tgz
-    dest: /root/clusterhat-files-latest.tgz
-  register: clusterhat_software_downloaded
-  when: clusterhat_package_installed|success and clusterhat_text_boot_enabled|success and clusterhat_gadget_enable|success
-
 - name: Install cluster HAT software/config files
   sudo: yes
-  unarchive:
-      src: /root/clusterhat-files-latest.tgz
-      dest: /
-      extra_opts: ['C']
+  shell: "wget -O - --quiet http://dist.8086.net/clusterhat/clusterhat-files-latest.tgz | sudo tar -zxvC /"
   register: clusterhat_software_installed
-  when: clusterhat_software_downloaded|success
+  when: clusterhat_package_installed|success and clusterhat_text_boot_enabled|success and clusterhat_gadget_enable|success
 
 - name: Patch cluster Hat
   sudo: yes

@@ -1,5 +1,6 @@
 ---
-- sudo: true
+- hosts: host.ssh
+  sudo: true
   vars_files:
     - vars/all.yml
     - vars/host.yml

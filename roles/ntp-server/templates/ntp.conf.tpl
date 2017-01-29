@@ -33,11 +33,11 @@ restrict -6 default kod notrap nomodify nopeer noquery
 # Local users may interrogate the ntp server more closely.
 restrict 127.0.0.1
 restrict ::1
-restrict {{local_network.base_address}.0 mask {{local_network.netmask}}
+restrict {{local_network.base_address}}.0 mask {{local_network.netmask}}
 
 # If you want to provide time to your local subnet, change the next line.
 # (Again, the address is an example only.)
-broadcast {{local_network.boardcast}}
+broadcast {{local_network.broadcast}}
 
 # If you want to listen to time broadcasts on your local subnet, de-comment the
 # next lines.  Please do this only if you trust everybody on the network!

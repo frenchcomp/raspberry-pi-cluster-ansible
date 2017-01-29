@@ -29,8 +29,7 @@
   apt: pkg={{ item }} state=latest
   with_items: server.packages
   register: base_system_extra_installed
-  when: server.packages is defined
-  when: base_apt_updated|success
+  when: server.packages is defined and base_apt_updated|success
 
 - name: Configure the timezone
   sudo: yes

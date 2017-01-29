@@ -7,9 +7,9 @@
 - name: Update FSTAB
   sudo: yes
   mount:
-    path: {{nfs.dev_disk_data_uuid}}
-    src: {{local_network.address}}:/mnt/data
-    fstype: nfs
+    name: "{{local_network.nfs_mount_point}}"
+    src: "{{nfs.dev_disk_data_uuid}}"
+    fstype: "{{nfs.dev_disk_type}}"
     opts: rw
     state: mounted
   register: nfs_server_device_mounted
@@ -33,9 +33,9 @@
 
 - name: run Exportfs
   sudo: yes
-  command: exportfs
+  shell: "exportfs"
   register: nfs_server_exportfs
-  when: nfs_server_exportfs|success
+  when: nfs_server_installed|success
 
 - name: Enable RPCBind
   service: name="rpcbind" state=started enabled=yes

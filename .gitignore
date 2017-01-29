@@ -1,2 +1,4 @@
 /build/
 /var/*
+hosts
+/host.retry

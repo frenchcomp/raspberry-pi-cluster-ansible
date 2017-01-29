@@ -1,16 +1,23 @@
 ---
 local_network:
-  broadcast: '192.168.142.255'
+  address: '192.168.142.1'
   base_address: '192.168.142'
   netmask: '255.255.255.0'
-  local_networ.hardware.mac: '00:22:82:ff:ff'
+  hardware_mac: '00:22:82:ff:ff'
   domain: "labs.teknoo.software"
+  dns: "8.8.8.8"
+  broadcast: '192.168.142.255'
+  nfs_mount_point: "/mnt/data"
+  time_lease: 600
+  max_lease_time: 7200
 
 wpa_supplicant:
   network1: 'Teknoo'
   psk1: 'Mdpwifi2richarddelogefc'
   network2: 'TeknooMobile'
   psk2: 'Mdpwifi2richarddelogefc'
+  country: 'FR'
 
-host:
+nfs:
+  dev_disk_type: "ext4"
   dev_disk_data_uuid: 'UUID=04a6875a-c6ba-4767-8643-23c7d721a9b1'

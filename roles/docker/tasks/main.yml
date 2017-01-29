@@ -3,7 +3,8 @@
   sudo: yes
   apt: pkg={{ item }} state=latest
   with_items:
-    - apt-transport-https ca-certificates
+    - apt-transport-https
+    - ca-certificates
     - curl
     - ca-certificates
     - gnupg2
