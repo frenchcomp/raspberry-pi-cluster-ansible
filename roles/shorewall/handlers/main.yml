@@ -1,0 +1,3 @@
+---
+- name: shorewall-reloaded
+  service: name=shorewall state=restart

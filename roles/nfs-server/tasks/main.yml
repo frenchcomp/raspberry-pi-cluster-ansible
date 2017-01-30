@@ -46,3 +46,5 @@
   service: name="nfs-kernel-server" state=started enabled=yes
   register: nfs_server_enabled
   when: nfs_server_exportfs|success
+  notify:
+    - ntp-server-reloaded

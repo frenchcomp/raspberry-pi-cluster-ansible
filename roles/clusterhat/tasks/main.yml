@@ -43,4 +43,5 @@
   template: src=interfaces.tpl dest=/etc/network/interfaces
   register: clusterhat_network_bridge_installed
   when: clusterhat_patched|success
-
+  notify:
+    - network-reloaded

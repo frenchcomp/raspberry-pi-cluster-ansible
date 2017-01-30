@@ -70,4 +70,6 @@
   service: name="shorewall" state=started enabled=yes
   register: shorewall_installed
   when: shorewall_installed|success
+  notify:
+    - shorewall-reloaded
 

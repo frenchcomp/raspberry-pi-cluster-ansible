@@ -16,3 +16,5 @@
   sudo: yes
   template: src=wpa_supplicant.conf.tpl dest=/etc/wpa_supplicant/wpa_supplicant.conf
   register: dhcp_wpa_configured
+  notify:
+      - dhcp-restarted
