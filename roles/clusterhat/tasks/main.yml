@@ -57,3 +57,7 @@
   service: name=clusterhat enabled=yes
   register: clusterhat_enable
   when: clusterhat_service|success
+
+- name: Config SSH for Pi User
+  sudo: no
+  template: src=ssh_config.tpl dest=/home/pi/.ssh/config

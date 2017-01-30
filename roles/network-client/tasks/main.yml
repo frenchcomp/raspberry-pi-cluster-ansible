@@ -8,3 +8,7 @@
   sudo: yes
   template: src=ntp.conf.tpl dest=/etc/ntp.conf
   register: network_client_ntp
+
+- name: Config SSH for Pi User
+  sudo: no
+  template: src=ssh_config.tpl dest=/home/pi/.ssh/config
