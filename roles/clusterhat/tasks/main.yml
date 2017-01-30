@@ -45,3 +45,15 @@
   when: clusterhat_patched|success
   notify:
     - network-reloaded
+
+- name: Install Cluster service
+  sudo: yes
+  template: src=clusterhat.service.tpl dest=/etc/systemd/system/clusterhat.service
+  register: clusterhat_service
+  when: clusterhat_patched|success
+
+- name: Enable Cluster service
+  sudo: yes
+  service: name=clusterhat enabled=yes
+  register: clusterhat_enable
+  when: clusterhat_service|success
