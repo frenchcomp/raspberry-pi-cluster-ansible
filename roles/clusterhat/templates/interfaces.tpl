@@ -21,4 +21,3 @@ iface br0 inet static
 	    address {{local_network.address}}
 	    broadcast {{local_network.broadcast}}
 	    netmask {{local_network.netmask}}
-

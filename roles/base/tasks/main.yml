@@ -56,5 +56,3 @@
   sudo: yes
   register: base_locale_generated
   when: base_timezone_defined|success
-
-
