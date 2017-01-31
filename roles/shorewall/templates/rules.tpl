@@ -78,12 +78,8 @@ ACCEPT		$FW		net		icmp
 #
 # Forward SSH
 #
-DNAT        net     loc:{{local_network.base_address}}.11:22    tcp    2201
-DNAT        net     loc:{{local_network.base_address}}.12:22    tcp    2202
-DNAT        net     loc:{{local_network.base_address}}.13:22    tcp    2203
-DNAT        net     loc:{{local_network.base_address}}.14:22    tcp    2204
-DNAT        net     loc:{{local_network.base_address}}.15:22    tcp    2205
-DNAT        net     loc:{{local_network.base_address}}.16:22    tcp    2206
-DNAT        net     loc:{{local_network.base_address}}.17:22    tcp    2207
-DNAT        net     loc:{{local_network.base_address}}.18:22    tcp    2208
-DNAT        net     loc:{{local_network.base_address}}.19:22    tcp    2209
+{% if dhcp_server.static_map is defined %}
+{% for staticLease in dhcp_server.static_map %}
+DNAT        net     loc:{{staticLease.address}}:22    tcp    220{{loop.index}}
+{% endfor %}
+{% endif %}

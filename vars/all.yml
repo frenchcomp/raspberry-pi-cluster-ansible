@@ -1,4 +1,5 @@
 ---
+#Base parameters for nodes and host about locale
 server:
-    timezone: 'Europe/Paris'
-    locale: fr_FR.UTF-8
+  timezone: 'Europe/Paris'
+  locale: 'fr_FR.UTF-8'

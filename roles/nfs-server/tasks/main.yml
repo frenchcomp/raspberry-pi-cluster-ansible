@@ -7,9 +7,9 @@
 - name: Update FSTAB
   sudo: yes
   mount:
-    name: "{{local_network.nfs_mount_point}}"
-    src: "{{nfs.dev_disk_data_uuid}}"
-    fstype: "{{nfs.dev_disk_type}}"
+    name: "{{shared_storage.disk_mount_point}}"
+    src: "{{shared_storage.dev_disk_data_uuid}}"
+    fstype: "{{shared_storage.dev_disk_type}}"
     opts: rw
     state: mounted
   register: nfs_server_device_mounted

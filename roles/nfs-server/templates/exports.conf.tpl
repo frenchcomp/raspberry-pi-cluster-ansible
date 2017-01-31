@@ -8,4 +8,4 @@
 # /srv/nfs4        gss/krb5i(rw,sync,fsid=0,crossmnt,no_subtree_check)
 # /srv/nfs4/homes  gss/krb5i(rw,sync,no_subtree_check)
 #
-{{local_network.nfs_mount_point}} {{local_network.base_address}}.*(rw,sync,no_subtree_check,insecure,anonuid=1000,anongid=1000)
+{{shared_storage.disk_mount_point}} {{network.network_address}}(rw,sync,no_subtree_check,insecure,anonuid=1000,anongid=1000)

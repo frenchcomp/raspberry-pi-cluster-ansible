@@ -8,7 +8,7 @@ filegen peerstats file peerstats type day enable
 filegen clockstats file clockstats type day enable
 
 # You do need to talk to an NTP server or two (or three).
-server {{local_network.address}}
+server {{network.host_address}}
 
 # By default, exchange time with everybody, but don't allow configuration.
 restrict -4 default kod notrap nomodify nopeer noquery

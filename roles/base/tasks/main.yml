@@ -16,12 +16,10 @@
   with_items:
     - ssh
     - screen
-    - vim
     - wget
     - python
     - python-software-properties
     - python-setuptools
-    - htop
   register: base_system_installed
   when: base_apt_updated|success
 

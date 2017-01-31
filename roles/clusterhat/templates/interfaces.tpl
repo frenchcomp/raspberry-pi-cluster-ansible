@@ -18,6 +18,6 @@ iface br0 inet static
         bridge_stp off
         bridge_waitport 0
         bridge_fd 0
-	    address {{local_network.address}}
-	    broadcast {{local_network.broadcast}}
-	    netmask {{local_network.netmask}}
+	    address {{network.host_address}}
+	    broadcast {{network.broadcast}}
+	    netmask {{network.netmask}}

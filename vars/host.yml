@@ -1,23 +1,34 @@
 ---
-local_network:
-  address: '192.168.142.1'
-  base_address: '192.168.142'
+#Network configuration about the host
+network:
+  host_address: '192.168.142.1'
+  network_address: '192.168.142.0'
+  broadcast: '192.168.142.255'
   netmask: '255.255.255.0'
-  hardware_mac: '00:22:82:ff:ff'
   domain: "labs.teknoo.software"
   dns: "8.8.8.8"
-  broadcast: '192.168.142.255'
-  nfs_mount_point: "/mnt/data"
+
+#DHCP server configuration
+dhcp_server:
+  range_start: '192.168.142.10'
+  range_end: '192.168.142.20'
   time_lease: 600
   max_lease_time: 7200
+  static_map:
+    - { name: 'pi1', mac: '00:22:82:ff:ff:01', address: '192.168.142.11' }
+    - { name: 'pi2', mac: '00:22:82:ff:ff:02', address: '192.168.142.12' }
+    - { name: 'pi3', mac: '00:22:82:ff:ff:03', address: '192.168.142.13' }
+    - { name: 'pi4', mac: '00:22:82:ff:ff:04', address: '192.168.142.14' }
 
+#Wifi configuration
 wpa_supplicant:
-  network1: 'Teknoo'
-  psk1: 'Mdpwifi2richarddelogefc'
-  network2: 'TeknooMobile'
-  psk2: 'Mdpwifi2richarddelogefc'
   country: 'FR'
+  networks:
+    - { ssid: 'Teknoo', psk: 'Mdpwifi2richarddelogefc' }
+    - { ssid: 'TeknooMobile', psk: 'Mdpwifi2richarddelogefc'}
 
-nfs:
+#Shared storage (nfs server on hast, shared with host)
+shared_storage:
   dev_disk_type: "ext4"
   dev_disk_data_uuid: 'UUID=04a6875a-c6ba-4767-8643-23c7d721a9b1'
+  disk_mount_point: "/mnt/data"

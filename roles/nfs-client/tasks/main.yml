@@ -8,15 +8,15 @@
 
 - name: Creates mnt data directory
   sudo: yes
-  file: path={{local_network.nfs_mount_point}} state=directory
+  file: path={{shared_storage.nfs_mount_point}} state=directory
   register: nfs_client_mount_point
   when: nfs_client_installed|success
 
 - name: Update FSTAB
   sudo: yes
   mount:
-    name: "{{local_network.nfs_mount_point}}"
-    src: "{{local_network.address}}:{{local_network.nfs_mount_point}}"
+    name: "{{shared_storage.nfs_mount_point}}"
+    src: "{{network.host_address}}:{{shared_storage.disk_mount_point}}"
     fstype: nfs
     opts: rw
     state: mounted

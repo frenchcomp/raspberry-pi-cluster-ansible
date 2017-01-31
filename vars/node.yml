@@ -1,10 +1,13 @@
 ---
-local_network:
-  address: '192.168.142.1'
-  base_address: '192.168.142'
+network:
+  host_address: '192.168.142.1'
+  network: '192.168.142.0'
+  broadcast: '192.168.142.255'
   netmask: '255.255.255.0'
-  hardware_mac: '00:22:82:ff:ff'
   domain: "labs.teknoo.software"
   dns: "8.8.8.8"
-  broadcast: '192.168.142.255'
+
+#Shared storage (nfs server on hast, shared with host)
+shared_storage:
   nfs_mount_point: "/mnt/data"
+  disk_mount_point: "/mnt/data"
