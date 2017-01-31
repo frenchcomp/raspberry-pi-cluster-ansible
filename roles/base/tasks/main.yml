@@ -54,3 +54,33 @@
   sudo: yes
   register: base_locale_generated
   when: base_timezone_defined|success
+
+- name: Set authorized key from current user
+  authorized_key:
+    user: pi
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  register: ssh_authorized_key
+
+- name: Set authorized key from ssh cluster key
+  authorized_key:
+    user: pi
+    state: present
+    key: "{{ lookup('file', 'ssh/id_rsa.pub') }}"
+  register: cluster_ssh_authorized_key
+
+- name: copy private ssh cluster key
+  copy:
+    src: "ssh/id_rsa"
+    dest: "/home/pi/.ssh/id_rsa"
+    directory_mode: true
+    mode: "u=rwx,g=,o="
+  register: cluster_ssh_private_key
+
+- name: copy public ssh cluster key
+  copy:
+    src: "ssh/id_rsa.pub"
+    dest: "/home/pi/.ssh/id_rsa.pub"
+    directory_mode: true
+    mode: "u=rwx,g=,o="
+  register: cluster_ssh_pub_key
