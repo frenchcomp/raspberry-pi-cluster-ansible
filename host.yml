@@ -13,3 +13,4 @@
     - dhcp-server
     - docker
     - php-arm-docker
+    - docker-swarm-manager

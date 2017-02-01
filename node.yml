@@ -9,3 +9,4 @@
     - network-client
     - nfs-client
     - docker
+    - docker-swarm-worker

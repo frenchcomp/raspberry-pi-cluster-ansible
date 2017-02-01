@@ -1,0 +1,12 @@
+---
+- name: Determine swarm status
+  shell: >
+    docker info | egrep '^Swarm: ' | cut -d ' ' -f2
+  register: docker_swarm_status
+
+- name: Join worker nodes to cluster
+  shell: >
+    docker swarm join
+    --token={{ hostvars[groups['swarm_manager_operational'][0]]['docker_swarm_worker_token']['stdout'] }}
+    {{ network.host_address }}
+  when: "'active' not in docker_swarm_status.stdout_lines"

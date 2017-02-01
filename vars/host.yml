@@ -32,3 +32,7 @@ shared_storage:
   dev_disk_type: "ext4"
   dev_disk_data_uuid: 'UUID=04a6875a-c6ba-4767-8643-23c7d721a9b1'
   disk_mount_point: "/mnt/data"
+
+#Docker configuration
+docker:
+  iface_name: "br0"
