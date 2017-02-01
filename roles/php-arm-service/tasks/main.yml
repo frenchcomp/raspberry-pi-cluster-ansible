@@ -1,0 +1,13 @@
+---
+- name: PHP Arm Service on Docker
+  docker:
+    name: "php-arm-service"
+    image: "teknoo/php7-rpi"
+    state: restarted
+    privileged: true
+    expose:
+      - 9000:9000
+      - 80:80
+      - 443:443
+    log_driver: syslog
+    register: php-arm-service

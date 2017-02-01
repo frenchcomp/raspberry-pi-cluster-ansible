@@ -14,3 +14,4 @@
     - docker
     - php-arm-docker
     - docker-swarm-manager
+    - php-arm-service

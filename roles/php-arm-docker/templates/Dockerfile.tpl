@@ -17,3 +17,7 @@ ADD docker.ini /etc/php/7.0/mods-available/
 
 RUN ln -s /etc/php/7.0/mods-available/docker.ini /etc/php/7.0/cli/conf.d/99-docker.ini
 RUN ln -s /etc/php/7.0/mods-available/docker.ini /etc/php/7.0/fpm/conf.d/99-docker.ini
+
+EXPOSE 9000
+EXPOSE 443
+EXPOSE 80

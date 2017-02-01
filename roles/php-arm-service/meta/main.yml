@@ -1,0 +1,2 @@
+---
+dependencies: [base, docker, php-arm-docker, docker-swarm-manager]
