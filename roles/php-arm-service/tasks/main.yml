@@ -11,3 +11,4 @@
       - 443:443
     log_driver: syslog
     register: php-arm-service
+    volume: "{{ php-arm-service.volume_path_host }}:{{ php-arm-service.volume_path_container }}"

@@ -3,3 +3,7 @@
 server:
   timezone: 'Europe/Paris'
   locale: 'fr_FR.UTF-8'
+
+php-arm-service:
+  volume_path_host: "/mnt/data"
+  volume_path_container: "/usr/local/share/php-arm"
