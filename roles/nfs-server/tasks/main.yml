@@ -1,11 +1,11 @@
 ---
 - name: Creates mnt data directory
-  sudo: yes
+  become: yes
   file: path=/mnt/data state=directory
   register: nfs_server_mount_point
 
 - name: Update FSTAB
-  sudo: yes
+  become: yes
   mount:
     name: "{{shared_storage.disk_mount_point}}"
     src: "{{shared_storage.dev_disk_data_uuid}}"
@@ -16,7 +16,7 @@
   when: nfs_server_mount_point|success
 
 - name: Install NFS Server
-  sudo: yes
+  become: yes
   apt: pkg={{ item }} state=latest
   with_items:
     - nfs-common
@@ -26,13 +26,13 @@
   when: nfs_server_device_mounted|success
 
 - name: Update Export file
-  sudo: yes
+  become: yes
   template: src=exports.conf.tpl dest=/etc/exports.conf
   register: nfs_server_export_configured
   when: nfs_server_installed|success
 
 - name: run Exportfs
-  sudo: yes
+  become: yes
   shell: "exportfs"
   register: nfs_server_exportfs
   when: nfs_server_installed|success

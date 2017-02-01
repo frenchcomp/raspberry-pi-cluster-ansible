@@ -1,19 +1,19 @@
 ---
 - name: Install NFS Client
-  sudo: yes
+  become: yes
   apt: pkg={{ item }} state=latest
   with_items:
     - nfs-common
   register: nfs_client_installed
 
 - name: Creates mnt data directory
-  sudo: yes
+  become: yes
   file: path={{shared_storage.nfs_mount_point}} state=directory
   register: nfs_client_mount_point
   when: nfs_client_installed|success
 
 - name: Update FSTAB
-  sudo: yes
+  become: yes
   mount:
     name: "{{shared_storage.nfs_mount_point}}"
     src: "{{network.host_address}}:{{shared_storage.disk_mount_point}}"

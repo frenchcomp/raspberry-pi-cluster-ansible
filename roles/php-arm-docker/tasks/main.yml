@@ -1,30 +1,30 @@
 ---
 - name: Install Docker-py
-  sudo: yes
+  become: yes
   pip:
     name: docker-py
     state: present
   register: docker_py_installed
 
 - name: Prepare tmp directory
-  sudo: yes
+  become: yes
   file: path=/tmp/php-docker state=directory
   register: php_arm_docker_tmp_dir
 
 - name: Transfert Dockerfile
-  sudo: yes
+  become: yes
   template: src=Dockerfile.tpl dest=/tmp/php-docker/Dockerfile
   register: php_arm_docker_dockerfile
   when: php_arm_docker_tmp_dir|success
 
 - name: Update Export file
-  sudo: yes
+  become: yes
   template: src=docker.ini.tpl dest=/tmp/php-docker/docker.ini
   register: php_arm_docker_docker_ini
   when: docker_py_installed|success and php_arm_docker_tmp_dir|success
 
 - name: Build PHP Container
-  sudo: yes
+  become: yes
   docker_image:
     path: /tmp/php-docker
     name: teknoo/php7-rpi

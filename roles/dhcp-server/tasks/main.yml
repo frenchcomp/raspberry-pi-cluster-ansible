@@ -1,19 +1,19 @@
 ---
 - name: Install DHCP Server
-  sudo: yes
+  become: yes
   apt: pkg={{ item }} state=latest
   with_items:
     - isc-dhcp-server
   register: dhcp_server_installed
 
 - name: Configure DHCP Server
-  sudo: yes
+  become: yes
   template: src=dhcpd.conf.tpl dest=/etc/dhcp/dhcpd.conf
   register: dhcp_server_configured
   when: dhcp_server_installed|success
 
 - name: Configure wpa supplicant
-  sudo: yes
+  become: yes
   template: src=wpa_supplicant.conf.tpl dest=/etc/wpa_supplicant/wpa_supplicant.conf
   register: dhcp_wpa_configured
   notify:

@@ -1,6 +1,6 @@
 ---
 - name: Install Base Docker packages
-  sudo: yes
+  become: yes
   apt: pkg={{ item }} state=latest
   with_items:
     - apt-transport-https
@@ -11,7 +11,7 @@
   register: docker_base_package_installed
 
 - name: Add Key Server ha.pool.sks-keyservers.net
-  sudo: yes
+  become: yes
   apt_key:
     keyserver: hkp://ha.pool.sks-keyservers.net:80
     id: 58118E89F3A912897C070ADBF76221572C52609D
@@ -20,7 +20,7 @@
   when: docker_base_package_installed|success
 
 - name: Add Key Server pgp.mit.edu
-  sudo: yes
+  become: yes
   apt_key:
     keyserver: hkp://pgp.mit.edu:80
     id: 58118E89F3A912897C070ADBF76221572C52609D
@@ -29,7 +29,7 @@
   when: docker_base_package_installed|success
 
 - name: Add Key Server keyserver.ubuntu.com
-  sudo: yes
+  become: yes
   apt_key:
     keyserver: hkp://keyserver.ubuntu.com:80
     id: 58118E89F3A912897C070ADBF76221572C52609D
@@ -38,7 +38,7 @@
   when: docker_base_package_installed|success
 
 - name: Register key
-  sudo: yes
+  become: yes
   apt_key:
     id: 58118E89F3A912897C070ADBF76221572C52609D
     state: present
@@ -46,7 +46,7 @@
   when: docker_base_package_installed|success
 
 - name: Register Docker repository
-  sudo: yes
+  become: yes
   apt_repository:
     repo: "deb [arch=armhf] https://apt.dockerproject.org/repo debian-jessie main"
     state: present
@@ -55,13 +55,13 @@
   when: docker_keyserver_sks|success and docker_keyserver_mit|success and docker_keyserver_ubuntu|success and docker_keyserver|success
 
 - name: Update apt
-  sudo: yes
+  become: yes
   apt: update_cache=yes
   register: docker_apt_updated
   when: docker_registry_added|success
 
 - name: Install Docker Packages
-  sudo: yes
+  become: yes
   apt: pkg={{ item }} state=latest
   with_items:
     - docker-engine

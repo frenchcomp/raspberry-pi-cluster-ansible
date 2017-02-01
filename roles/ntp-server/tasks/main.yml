@@ -1,6 +1,6 @@
 ---
 - name: Configure ntp
-  sudo: yes
+  become: yes
   template: src=ntp.conf.tpl dest=/etc/ntp.conf
   notify:
     - ntp-reload

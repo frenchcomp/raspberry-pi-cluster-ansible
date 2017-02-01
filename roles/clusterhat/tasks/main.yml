@@ -1,6 +1,6 @@
 ---
 - name: Install ClusterHat Base Packages
-  sudo: yes
+  become: yes
   apt: pkg={{ item }} state=latest
   with_items:
     - bridge-utils
@@ -12,12 +12,12 @@
   register: clusterhat_package_installed
 
 - name: Ensure we're going to do a text boot
-  sudo: yes
+  become: yes
   command: systemctl set-default multi-user.target
   register: clusterhat_text_boot_enabled
 
 - name: Enable gadget mode
-  sudo: yes
+  become: yes
   file:
     src=/lib/systemd/system/getty@.service
     dest=/etc/systemd/system/getty.target.wants/getty@ttyGS0.service
@@ -27,19 +27,19 @@
   register: clusterhat_gadget_enable
 
 - name: Install cluster HAT software/config files
-  sudo: yes
+  become: yes
   shell: "wget -O - --quiet http://dist.8086.net/clusterhat/clusterhat-files-latest.tgz | sudo tar -zxvC /"
   register: clusterhat_software_installed
   when: clusterhat_package_installed|success and clusterhat_text_boot_enabled|success and clusterhat_gadget_enable|success
 
 - name: Patch cluster Hat
-  sudo: yes
+  become: yes
   template: src=clusterhat.tpl dest=/sbin/clusterhat
   register: clusterhat_patched
   when: clusterhat_software_installed|success
 
 - name: Configure network
-  sudo: yes
+  become: yes
   template: src=interfaces.tpl dest=/etc/network/interfaces
   register: clusterhat_network_bridge_installed
   when: clusterhat_patched|success
@@ -47,17 +47,17 @@
     - network-reloaded
 
 - name: Install Cluster service
-  sudo: yes
+  become: yes
   template: src=clusterhat.service.tpl dest=/etc/systemd/system/clusterhat.service
   register: clusterhat_service
   when: clusterhat_patched|success
 
 - name: Enable Cluster service
-  sudo: yes
+  become: yes
   service: name=clusterhat enabled=yes
   register: clusterhat_enable
   when: clusterhat_service|success
 
 - name: Config SSH for Pi User
-  sudo: no
+  become: no
   template: src=ssh_config.tpl dest=/home/pi/.ssh/config
