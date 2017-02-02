@@ -1,14 +1,30 @@
 ---
+- name: Install Docker-compose
+  become: yes
+  pip:
+    name: docker-compose
+    state: present
+  register: docker_compose_installed
+
 - name: PHP Arm Service on Docker
   docker:
     name: "php-arm-service"
     image: "teknoo/php7-rpi"
-    state: restarted
+    state: started
     privileged: true
     expose:
       - 9000:9000
       - 80:80
       - 443:443
     log_driver: syslog
-    register: php-arm-service
-    volume: "{{ php-arm-service.volume_path_host }}:{{ php-arm-service.volume_path_container }}"
+    volumes:
+      - "{{ php_arm_service.volume_path_host }}:{{ php_arm_service.volume_path_container }}"
+  when: docker_compose_installed|success
+  register: php-arm-service
+
+- name: PHP ARM Service scaled
+  docker_service:
+    scale:
+      php-arm-service: "{{ dhcp_server.static_map|length + 1 }}"
+  when: php-arm-service|success
+  register: php-arm-service-scalled

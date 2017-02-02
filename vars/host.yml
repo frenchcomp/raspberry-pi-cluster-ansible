@@ -36,3 +36,7 @@ shared_storage:
 #Docker configuration
 docker:
   iface_name: "br0"
+
+php_arm_service:
+  volume_path_host: "/mnt/data"
+  volume_path_container: "/mnt/data"
