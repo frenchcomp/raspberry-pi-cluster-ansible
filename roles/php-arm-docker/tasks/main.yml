@@ -3,7 +3,7 @@
   become: yes
   pip:
     name: docker-py
-    state: present
+    state: latest
   register: docker_py_installed
 
 - name: Prepare tmp directory
