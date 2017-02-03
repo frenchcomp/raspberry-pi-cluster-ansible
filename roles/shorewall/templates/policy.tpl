@@ -14,6 +14,7 @@
 #SOURCE		DEST		POLICY		LOG LEVEL	LIMIT:BURST
 
 loc		net		ACCEPT
+loc     $FW     ACCEPT
 $FW		net		ACCEPT
 $FW		loc		ACCEPT
 net		all		DROP		info
