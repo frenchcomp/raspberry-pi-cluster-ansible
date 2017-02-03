@@ -1,5 +1,5 @@
 /build/
 /var/*
-invotory
+/inventory
 /*.retry
 /ssh
