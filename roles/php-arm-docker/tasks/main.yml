@@ -27,6 +27,6 @@
   become: yes
   docker_image:
     path: /tmp/php-docker
-    name: teknoo/php7-rpi
+    name: teknoo-php7-rpi
   register: php_arm_docker_built
   when: php_arm_docker_dockerfile|success and php_arm_docker_tmp_dir|success

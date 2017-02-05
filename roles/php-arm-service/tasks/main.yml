@@ -1,23 +1,21 @@
 ---
-- name: Install Docker-compose
-  become: yes
-  pip:
-    name: docker-compose
-    state: present
-    version: 1.9
-  register: docker_compose_installed
 
-- name: PHP Arm Service on Docker
-  become: yes
-  docker_service:
-    project_name: "php-arm-service"
-    definition:
-      "php-arm-service":
-        image: "teknoo/php7-rpi"
-        privileged: true
-        volumes:
-          - "{{ php_arm_service.volume_path_host }}:{{ php_arm_service.volume_path_container }}"
-    scale:
-      "php-arm-service": "{{ dhcp_server.static_map|length + 1 }}"
-  when: docker_compose_installed|success
+- name: Check PHP Arm Service presence
+  shell: >
+    docker info | egrep 'php-arm-service' | cut -d ' ' -f2
+  register: php_arm_service_presence
+
+- name: Create PHP Arm Service
+  shell: >
+    docker service create \
+      --name php-arm-service \
+      --mount type=bind,source={{ php_arm_service.volume_path_host }},destination={{ php_arm_service.volume_path_container }} \
+      teknoo-php7-rpi
+  when: "'php-arm-service' not in php_arm_service_presence.stdout_lines"
   register: php_arm_service
+
+- name: Scale PHP Arm Service
+  shell: >
+    docker service scale php-arm-service={{ dhcp_server.static_map|length + 1 }}
+  when: "'php-arm-service' not in php_arm_service_presence.stdout_lines" and php_arm_service|success
+  register: php_arm_service_scaled
