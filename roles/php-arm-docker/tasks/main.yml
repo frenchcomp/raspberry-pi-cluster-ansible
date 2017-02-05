@@ -23,6 +23,12 @@
   register: php_arm_docker_docker_ini
   when: docker_py_installed|success and php_arm_docker_tmp_dir|success
 
+- name: Update Command file
+  become: yes
+  template: src=command.sh.tpl dest=/tmp/php-docker/command.sh
+  register: php_arm_docker_docker_command
+  when: docker_py_installed|success and php_arm_docker_tmp_dir|success
+
 - name: Build PHP Container
   become: yes
   docker_image:

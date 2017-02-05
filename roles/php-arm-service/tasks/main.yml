@@ -2,7 +2,7 @@
 
 - name: Check PHP Arm Service presence
   shell: >
-    docker info | egrep 'php-arm-service' | cut -d ' ' -f2
+    docker service ls | egrep 'php-arm-service' | cut -d ' ' -f3
   register: php_arm_service_presence
 
 - name: Create PHP Arm Service
@@ -17,5 +17,5 @@
 - name: Scale PHP Arm Service
   shell: >
     docker service scale php-arm-service={{ dhcp_server.static_map|length + 1 }}
-  when: "'php-arm-service' not in php_arm_service_presence.stdout_lines" and php_arm_service|success
+  when: "'php-arm-service' not in php_arm_service_presence.stdout_lines and php_arm_service|success"
   register: php_arm_service_scaled
